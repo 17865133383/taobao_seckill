@@ -43,9 +43,7 @@ def default_chrome_path():
 
 class ChromeDrive:
 
-    def __init__(self, chrome_path='D:/pycharm/taobao_seckill/chromedriver-win64/chromedriver.exe', seckill_time=None, password=None):
-    #def __init__(self, chrome_path='D:/Chrome/Chrome_123.0.6312.59_x64.Green/App/chrome.exe', seckill_time=None, password=None):
-    #def __init__(self, chrome_path=default_chrome_path(), seckill_time=None, password=None):
+    def __init__(self, chrome_path='../chromedriver-win64/chromedriver.exe', seckill_time=None, password=None):
         self.chrome_path = chrome_path
         print(self.chrome_path)
         self.seckill_time = seckill_time
@@ -83,7 +81,7 @@ class ChromeDrive:
 
 
         #指定谷歌浏览器本地的位置或者直接加到本地path
-        chrome_options.binary_location = "D:\\Chrome\\Chrome_123.0.6312.59_x64.Green\\App\\chrome.exe"
+        chrome_options.binary_location = "..\\Chrome_123.0.6312.59_x64.Green\\App\\chrome.exe"
 
         arguments = ['--no-sandbox', '--disable-impl-side-painting', '--disable-setuid-sandbox', '--disable-seccomp-filter-sandbox',
                      '--disable-breakpad', '--disable-client-side-phishing-detection', '--disable-cast',
@@ -191,17 +189,22 @@ class ChromeDrive:
                 self.pay()
 
 
+    '''
+    #暂时先不考虑支付问题
     def pay(self):
-        try:
-            element = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'sixDigitPassword')))
-            element.send_keys(self.password)
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'J_authSubmit'))).click()
-            notify_user(msg="付款成功")
-        except:
-            notify_user(msg="付款失败")
-        finally:
-            sleep(60)
-            self.driver.quit()
+    try:
+        element = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'sixDigitPassword')))
+        element.send_keys(self.password)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'J_authSubmit'))).click()
+        notify_user(msg="付款成功")
+    except:
+        notify_user(msg="付款失败")
+    finally:
+        sleep(60)
+        self.driver.quit()
+    
+    '''
+
 
 
     def get_cookie(self):
